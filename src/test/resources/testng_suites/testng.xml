@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Five online tests">
+    <test name="regression1">
+        <classes>
+            <class name="com.solvd.seleniumtesting.OnlinerWebTest">
+                <methods>
+                    <include name="verificationFastSearchAuto"/>
+                    <include name="verificationLoadHomePage"/>
+                    <include name="verificationRedirectToAbPage"/>
+                    <include name="verificationAppliedFilters"/>
+                    <include name="verificationRedirectToValidPage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
