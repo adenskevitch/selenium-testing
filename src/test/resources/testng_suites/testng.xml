@@ -2,6 +2,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="Five online tests">
+
+    <parameter name="searchData" value="Автомобили"/>
+    <parameter name="menuSection" value="Автобарахолка"/>
+    <parameter name="filterCarModel" value="Audi"/>
+    <parameter name="filterCarBody" value="Внедорожник"/>
+    <parameter name="fileCarDriveSystem" value="Полный"/>
+
     <test name="regression1">
         <classes>
             <class name="com.solvd.seleniumtesting.OnlinerWebTest">

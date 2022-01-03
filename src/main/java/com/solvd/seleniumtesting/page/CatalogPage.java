@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class CatalogPage extends AbstractPage {
 
-    @FindBy(xpath = "//div[contains(@id,'schema-products')]/div[contains(text(),'Упс')]")
+    @FindBy(xpath = "//*[@id='schema-products']/*[contains(text(),'Упс')]")
     private ExtendedWebElement failMessage;
 
     public CatalogPage(WebDriver driver) {

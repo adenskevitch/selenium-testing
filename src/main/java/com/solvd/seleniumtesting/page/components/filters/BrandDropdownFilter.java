@@ -10,10 +10,10 @@ import java.util.List;
 
 public class BrandDropdownFilter extends AbstractUIObject {
 
-    @FindBy(xpath = ".//input[contains(@type,'text')]")
+    @FindBy(xpath = ".//input[@type='text']")
     private ExtendedWebElement brandInputField;
 
-    @FindBy(xpath = ".//div[contains(text(),'Все марки')]/following-sibling::ul/descendant-or-self::li")
+    @FindBy(xpath = ".//*[contains(text(),'Все марки')]/following-sibling::ul/descendant-or-self::li")
     private List<ExtendedWebElement> brandList;
 
     public BrandDropdownFilter(WebDriver driver, SearchContext searchContext) {

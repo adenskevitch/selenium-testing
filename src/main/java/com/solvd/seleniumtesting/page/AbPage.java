@@ -14,7 +14,7 @@ public class AbPage extends AbstractPage {
 
     @FindBy(xpath = "//*[contains(@class,'offers-list')]")
     private ProductBlock productBlock;
-    @FindBy(xpath = "//div[contains(@class,'link_middle')]")
+    @FindBy(xpath = "//*[contains(@class,'link_middle')]")
     private ExtendedWebElement testCar;
 
     public AbPage(WebDriver driver) {

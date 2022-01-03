@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CarBodyDropdownFilter extends AbstractUIObject {
 
-    @FindBy(xpath = ".//input[contains(@type,'checkbox')]/following-sibling::div[contains(@class,'dropdown-style')]/div[contains(@class,'checkbox-sign')]")
+    @FindBy(xpath = ".//input[@type='checkbox']/following-sibling::*[contains(@class,'dropdown-style')]/*[contains(@class,'checkbox-sign')]")
     private List<ExtendedWebElement> carBodyList;
 
     public CarBodyDropdownFilter(WebDriver driver, SearchContext searchContext) {

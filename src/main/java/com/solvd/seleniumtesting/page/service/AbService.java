@@ -10,31 +10,30 @@ public class AbService {
         this.abPage = abPage;
     }
 
-    public void selectModel() {
+    public void selectModel(String carModel) {
         abPage.getFilterBlock().getModelFilters().getBrand().click();
-        String brand = "Audi";
-        abPage.getFilterBlock().getModelFilters().getBrandDropdownFilter().getBrandInputField().type(brand);
+        abPage.getFilterBlock().getModelFilters().getBrandDropdownFilter().getBrandInputField().type(carModel);
         abPage.getFilterBlock().getModelFilters().getBrandDropdownFilter().getBrandList().stream()
                 .findFirst().get().click();
     }
 
-    public void selectCarBody() {
+    public void selectCarBody(String carBody) {
         abPage.getFilterBlock().getCarBodyFilter().getCarBody().click();
         abPage.getFilterBlock().getCarBodyFilter().getCarBodyDropdownFilter().getCarBodyList().stream()
-                .filter(carBody -> "Внедорожник".equals(carBody.getText()))
+                .filter(cBody -> carBody.equals(cBody.getText()))
                 .findFirst().get().click();
     }
 
-    public void selectDriverSystem() {
+    public void selectDriverSystem(String driveSystem) {
         abPage.getFilterBlock().getDriveSystemFilter().getDriverSystems().stream()
-                .filter(driverSystem -> "Полный".equals(driverSystem.getText()))
+                .filter(dSystem -> driveSystem.equals(dSystem.getText()))
                 .findFirst().get().click();
     }
 
-    public void applyFilters() {
-        selectModel();
-        selectCarBody();
-        selectDriverSystem();
+    public void applyFilters(String carModel, String carBody, String driveSystem) {
+        selectModel(carModel);
+        selectCarBody(carBody);
+        selectDriverSystem(driveSystem);
     }
 
     public AbPage getAbPage() {

@@ -17,32 +17,9 @@ public class FilterBlock extends AbstractUIObject {
     private CarBodyFilter carBodyFilter;
     @FindBy(xpath = ".//*[text()='Привод']/ancestor::*[contains(@class,'group')]")
     private DriveSystemFilter driveSystemFilter;
-    @FindBy(xpath = ".//*contains(@class,'state_animated')")
-    private ExtendedWebElement loadFilterControlField;
 
     public FilterBlock(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
-    }
-
-    public void selectModel() {
-        modelFilters.getBrand().click();
-        String brand = "Audi";
-        modelFilters.getBrandDropdownFilter().getBrandInputField().type(brand);
-        modelFilters.getBrandDropdownFilter().getBrandList().stream()
-                .findFirst().get().click();
-    }
-
-    public void selectCarBody() {
-        carBodyFilter.getCarBody().click();
-        carBodyFilter.getCarBodyDropdownFilter().getCarBodyList().stream()
-                .filter(carBody -> "Внедорожник".equals(carBody.getText()))
-                .findFirst().get().click();
-    }
-
-    public void selectDriverSystem() {
-        driveSystemFilter.getDriverSystems().stream()
-                .filter(driverSystem -> "Полный".equals(driverSystem.getText()))
-                .findFirst().get().click();
     }
 
     public ModelFilter getModelFilters() {
@@ -55,10 +32,6 @@ public class FilterBlock extends AbstractUIObject {
 
     public DriveSystemFilter getDriveSystemFilter() {
         return driveSystemFilter;
-    }
-
-    public ExtendedWebElement getLoadFilterControlField() {
-        return loadFilterControlField;
     }
 }
 

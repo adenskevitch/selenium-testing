@@ -3,7 +3,7 @@ package com.solvd.seleniumtesting.page.service;
 import com.solvd.seleniumtesting.page.AbPage;
 import com.solvd.seleniumtesting.page.HomePage;
 import com.solvd.seleniumtesting.page.SearchModal;
-import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 public class HomeService {
@@ -14,20 +14,19 @@ public class HomeService {
         this.homePage = new HomePage(webDriver);
     }
 
-    public AbPage selectAbSection() {
+    public AbPage selectAbSection(String menuSection) {
         if (homePage.getTopMenu().isUIObjectPresent()) {
             homePage.getTopMenu().getMenuItems().stream()
-                    .filter(menuItem -> "Автобарахолка".equals(menuItem.getText()))
-                    .findFirst().get().click();
+                    .filter(menuItem -> menuSection.equals(menuItem.getText()))
+                    .findFirst().orElseThrow(() -> new NoSuchElementException("Section not found")).click();
             return new AbPage(homePage.getDriver());
         }
-        throw new RuntimeException("Unable to open section: Автобарахолка");
+        throw new RuntimeException(String.format("Unable to open section: %s", menuSection));
     }
 
-    public CatalogService inputSearchData(WebDriver webDriver, SearchModal searchModal) {
+    public CatalogService inputSearchData(WebDriver webDriver, SearchModal searchModal, String searchData) {
         homePage.getSearchField().click();
-        homePage.getSearchField().type("Автомобили");
-        searchModal.setRootElement(webDriver.findElement(By.xpath("//iframe[contains(@class,'modal-iframe')]")));
+        homePage.getSearchField().type(searchData);
         webDriver.switchTo().frame(searchModal.getRootElement());
         searchModal.getCategoryLink().click();
         return new CatalogService(webDriver);
