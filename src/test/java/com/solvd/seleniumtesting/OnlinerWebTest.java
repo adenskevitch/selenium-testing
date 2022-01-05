@@ -1,11 +1,13 @@
 package com.solvd.seleniumtesting;
 
 import com.qaprosoft.carina.core.foundation.IAbstractTest;
-import com.solvd.seleniumtesting.page.SearchModal;
-import com.solvd.seleniumtesting.service.AbService;
-import com.solvd.seleniumtesting.service.CatalogService;
-import com.solvd.seleniumtesting.service.HomeService;
-import com.solvd.seleniumtesting.service.TestCarService;
+import com.solvd.seleniumtesting.factory.Page;
+import com.solvd.seleniumtesting.factory.Service;
+import com.solvd.seleniumtesting.factory.ServiceFactory;
+import com.solvd.seleniumtesting.page.AbPage;
+import com.solvd.seleniumtesting.page.HomePage;
+import com.solvd.seleniumtesting.page.SelectCarPage;
+import com.solvd.seleniumtesting.service.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
@@ -14,46 +16,53 @@ import org.testng.asserts.SoftAssert;
 
 public class OnlinerWebTest implements IAbstractTest {
 
-    private static HomeService homeService;
-    private static AbService abService;
+    private static Service<HomeService> home;
+    private static HomePage homePage;
+    private static Service<AbService> abService;
+    private static AbPage abPage;
+    private static ServiceFactory factory;
 
     @BeforeSuite
     public void setWindowParameters() {
         getDriver().manage().window().maximize();
-        homeService = new HomeService(getDriver());
+        factory = new ServiceFactory();
+        home = factory.getService(getDriver(), Page.HOME);
+        homePage = home.getService().getHomePage();
+    }
+
+    @Test(dependsOnMethods = "verificationLoadHomePage")
+    @Parameters({"searchData"})
+    public void verificationFastSearchAuto(String searchData) {
+        home.getService().inputSearchData(searchData);
+        Service<SearchModalService> searchModal = factory.getService(getDriver(), Page.SEARCHMODAL);
+        searchModal.getService().selectCategory(getDriver());
+        Service<CatalogService> catalog = factory.getService(getDriver(), Page.CATALOG);
+        catalog.getService().getCatalogPage().getFailMessage();
+        Assert.assertTrue(catalog.getService().getCatalogPage().getFailMessage().getText().contains("Упс"));
     }
 
     @Test
-    @Parameters({"searchData"})
-    public void verificationFastSearchAuto(String searchData) {
-        homeService.getHomePage().open();
-        Assert.assertTrue(homeService.getHomePage().isPageOpened(), "Home page is not opened");
-        Assert.assertTrue(homeService.getHomePage().getSearchField().isPresent(), "Search field does not present");
-        SearchModal searchModal = new SearchModal(getDriver());
-        CatalogService catalogService = homeService.inputSearchData(getDriver(), searchModal, searchData);
-        Assert.assertTrue(catalogService.getCatalogPage().getFailMessage().getText().contains("Упс"));
-    }
-
-    @Test(dependsOnMethods = "verificationFastSearchAuto")
     public void verificationLoadHomePage() {
-        homeService.getHomePage().open();
-        Assert.assertTrue(homeService.getHomePage().isPageOpened(), "Home page is not opened");
-        Assert.assertTrue(homeService.getHomePage().getTopMenu().isUIObjectPresent(), "Main menu bar does not present");
+        homePage.open();
+        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened");
+        Assert.assertTrue(homePage.getTopMenu().isUIObjectPresent(), "Main menu bar does not present");
     }
 
     @Test(dependsOnMethods = "verificationLoadHomePage")
     @Parameters({"menuSection"})
     public void verificationRedirectToAbPage(String menuSection) {
-        abService = new AbService(homeService.selectAbSection(menuSection));
-        Assert.assertTrue(abService.getAbPage().getFilterBlock().isUIObjectPresent(), "Filter block does not present");
+        Assert.assertTrue(home.getService().selectSection(menuSection));
+        abService = factory.getService(getDriver(), Page.AB);
+        abPage = abService.getService().getAbPage();
+        Assert.assertTrue(abPage.getFilterBlock().isUIObjectPresent(), "Filter block does not present");
     }
 
     @Test(dependsOnMethods = "verificationRedirectToAbPage")
     @Parameters({"filterCarModel", "filterCarBody", "fileCarDriveSystem"})
     public void verificationAppliedFilters(String filterCarModel, String filterCarBody, String fileCarDriveSystem) {
-        abService.applyFilters(filterCarModel, filterCarBody, fileCarDriveSystem);
+        abService.getService().applyFilters(filterCarModel, filterCarBody, fileCarDriveSystem);
         SoftAssert softAssert = new SoftAssert();
-        abService.getAbPage().getProductBlock().getProductList()
+        abPage.getProductBlock().getProductList()
                 .forEach(product -> {
                     softAssert.assertTrue(product.getProductTitle().getText().contains(filterCarModel));
                     softAssert.assertEquals(filterCarBody, product.getCarBodyInfo().getText());
@@ -64,10 +73,11 @@ public class OnlinerWebTest implements IAbstractTest {
 
     @Test(dependsOnMethods = "verificationAppliedFilters")
     public void verificationRedirectToValidPage() {
-        String actTitle = abService.getAbPage().getTestCar().getText();
-        TestCarService testCarService = new TestCarService(getDriver());
-        testCarService.selectCar(getDriver(), abService);
-        String excTitle = testCarService.getTestCarPage().getPageTitle().getText();
+        String actTitle = abPage.getTestCar().getText();
+        Service<SelectCarService> selectCar = factory.getService(getDriver(), Page.SELECTCAR);
+        SelectCarPage selectCarPage = selectCar.getService().getSelectCarPage();
+        selectCar.getService().selectCar(getDriver(), abPage);
+        String excTitle = selectCarPage.getPageTitle().getText();
         Assert.assertEquals(actTitle, excTitle);
     }
 }

@@ -5,17 +5,16 @@ import com.qaprosoft.carina.core.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 
-public class TestCarPage extends AbstractPage {
+public class SelectCarPage extends AbstractPage {
 
     @FindBy(xpath = "//h1")
     private ExtendedWebElement pageTitle;
 
-    public TestCarPage(WebDriver driver) {
+    public SelectCarPage(WebDriver driver) {
         super(driver);
     }
 
     public ExtendedWebElement getPageTitle() {
         return pageTitle;
     }
-
 }

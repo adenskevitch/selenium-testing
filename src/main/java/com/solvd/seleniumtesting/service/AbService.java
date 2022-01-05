@@ -1,14 +1,18 @@
 package com.solvd.seleniumtesting.service;
 
+import com.solvd.seleniumtesting.factory.Service;
 import com.solvd.seleniumtesting.page.AbPage;
-import com.solvd.seleniumtesting.page.components.filters.*;
+import com.solvd.seleniumtesting.page.components.filters.CarBodyFilter;
+import com.solvd.seleniumtesting.page.components.filters.DriveSystemFilter;
+import com.solvd.seleniumtesting.page.components.filters.ModelFilter;
+import org.openqa.selenium.WebDriver;
 
-public class AbService {
+public class AbService implements Service<AbService> {
 
     private final AbPage abPage;
 
-    public AbService(AbPage abPage) {
-        this.abPage = abPage;
+    public AbService(WebDriver webDriver) {
+        this.abPage = new AbPage(webDriver);
     }
 
     public void selectModel(String carModel) {
@@ -42,5 +46,10 @@ public class AbService {
 
     public AbPage getAbPage() {
         return abPage;
+    }
+
+    @Override
+    public AbService getService() {
+        return this;
     }
 }
