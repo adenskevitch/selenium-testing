@@ -7,11 +7,12 @@ import org.openqa.selenium.WebDriver;
 
 public class HomeService implements Service<HomeService> {
 
-    private final HomePage homePage;
+    private HomePage homePage;
+    private WebDriver webDriver;
 
-    public HomeService(WebDriver webDriver) {
-        this.homePage = new HomePage(webDriver);
-    }
+//    public HomeService(WebDriver webDriver) {
+//        this.homePage = new HomePage(webDriver);
+//    }
 
     public boolean selectSection(String menuSection) {
         if (homePage.getTopMenu().isUIObjectPresent()) {
@@ -35,5 +36,32 @@ public class HomeService implements Service<HomeService> {
     @Override
     public HomeService getService() {
         return this;
+    }
+
+    public static Builder builder() {
+        return new Builder(new HomeService());
+    }
+
+    public static class Builder {
+
+        private final HomeService homeService;
+
+        private Builder(HomeService homeService) {
+            this.homeService = homeService;
+        }
+
+        public Builder webDriver(WebDriver webDriver) {
+            homeService.webDriver = webDriver;
+            return this;
+        }
+
+        public Builder homePage() {
+            homeService.homePage = new HomePage(homeService.webDriver);
+            return this;
+        }
+
+        public HomeService build() {
+            return homeService;
+        }
     }
 }

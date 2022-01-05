@@ -9,10 +9,16 @@ public class ServiceFactory {
         Service service = null;
         switch (page) {
             case HOME:
-                service = new HomeService(webDriver);
+                service = HomeService.builder()
+                        .webDriver(webDriver)
+                        .homePage()
+                        .build();
                 break;
             case CATALOG:
-                service = new CatalogService(webDriver);
+                service = CatalogService.builder()
+                        .webDriver(webDriver)
+                        .catalogPage()
+                        .build();
                 break;
             case SEARCHMODAL:
                 service = new SearchModalService(webDriver);
