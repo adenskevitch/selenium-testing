@@ -20,7 +20,7 @@ public class ServiceFactory {
                         .catalogPage()
                         .build();
                 break;
-            case SEARCHMODAL:
+            case SEARCH_MODAL:
                 service = new SearchModalService(webDriver);
                 break;
             case AB:
@@ -29,7 +29,7 @@ public class ServiceFactory {
                         .abPage()
                         .build();
                 break;
-            case SELECTCAR:
+            case SELECT_CAR:
                 service = new SelectCarService(webDriver);
                 break;
             default:

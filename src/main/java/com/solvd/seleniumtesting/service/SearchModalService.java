@@ -1,13 +1,17 @@
 package com.solvd.seleniumtesting.service;
 
+import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.solvd.seleniumtesting.factory.Service;
 import com.solvd.seleniumtesting.page.SearchModal;
 import org.openqa.selenium.WebDriver;
 
+/*
+Decorator pattern realisation example
+ */
 public class SearchModalService extends ServiceClass implements Service<SearchModalService> {
 
     private final SearchModal searchModal;
-    private WebDriver webDriver;
+    private final WebDriver webDriver;
 
     public SearchModalService(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -26,6 +30,13 @@ public class SearchModalService extends ServiceClass implements Service<SearchMo
     @Override
     public void onEvent() {
         webDriver.switchTo().frame(getSearchModal().getRootElement());
-        searchModal.getCategoryLink().click();
+        clickOnElement(searchModal.getCategoryLink());
+    }
+
+    @Override
+    public void clickOnElement(ExtendedWebElement webElement) {
+        if (webElement.isVisible()) {
+            webElement.click();
+        }
     }
 }

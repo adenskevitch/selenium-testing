@@ -6,7 +6,7 @@ import java.util.*;
 
 public class EventHolder {
 
-    private static Map<EventType, List<ServiceClass>> listeners = new HashMap<>();
+    private static final Map<EventType, List<ServiceClass>> listeners = new HashMap<>();
 
     public EventHolder() {
         Arrays.stream(EventType.values())

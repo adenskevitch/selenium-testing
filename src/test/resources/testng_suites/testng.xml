@@ -5,9 +5,12 @@
 
     <parameter name="searchData" value="Автомобили"/>
     <parameter name="menuSection" value="Автобарахолка"/>
-    <parameter name="filterCarModel" value="Audi"/>
-    <parameter name="filterCarBody" value="Внедорожник"/>
-    <parameter name="fileCarDriveSystem" value="Полный"/>
+    <parameter name="firstCarModel" value="Audi"/>
+    <parameter name="firstCarBody" value="Внедорожник"/>
+    <parameter name="firstCarDriveSystem" value="Полный"/>
+    <parameter name="secondCarModel" value="BMW"/>
+    <parameter name="secondCarBody" value="Седан"/>
+    <parameter name="secondCarDriveSystem" value="Задний"/>
 
     <test name="regression1">
         <classes>
@@ -16,7 +19,8 @@
                     <include name="verificationFastSearchAuto"/>
                     <include name="verificationLoadHomePage"/>
                     <include name="verificationRedirectToAbPage"/>
-                    <include name="verificationAppliedFilters"/>
+                    <include name="verificationFirstFilters"/>
+                    <include name="verificationSecondFilters"/>
                     <include name="verificationRedirectToValidPage"/>
                 </methods>
             </class>

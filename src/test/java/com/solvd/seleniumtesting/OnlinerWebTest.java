@@ -46,10 +46,10 @@ public class OnlinerWebTest implements IAbstractTest {
         homePage.open();
         Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened");
         Assert.assertTrue(homePage.getTopMenu().isUIObjectPresent(), "Main menu bar does not present");
-        searchModal = factory.getService(getDriver(), Page.SEARCHMODAL);
-        eventHolder.addListener(EventType.STARTSEARCH, searchModal.getService());
+        searchModal = factory.getService(getDriver(), Page.SEARCH_MODAL);
+        eventHolder.addListener(EventType.START_SEARCH, searchModal.getService());
         home.getService().inputSearchData(searchData);
-        eventHolder.notify(EventType.STARTSEARCH);
+        eventHolder.notify(EventType.START_SEARCH);
         catalog = factory.getService(getDriver(), Page.CATALOG);
         catalogPage = catalog.getService().getCatalogPage();
         Assert.assertTrue(catalogPage.getFailMessage().getText().contains("Упс"));
@@ -67,33 +67,60 @@ public class OnlinerWebTest implements IAbstractTest {
     public void verificationRedirectToAbPage(String menuSection) {
         Assert.assertTrue(home.getService().selectSection(menuSection));
         abService = factory.getService(getDriver(), Page.AB);
-        eventHolder.addListener(EventType.PAGELOADED, abService.getService());
+        eventHolder.addListener(EventType.FILTER_BLOCK_READY, abService.getService());
         abPage = abService.getService().getAbPage();
         Assert.assertTrue(abPage.getFilterBlock().isUIObjectPresent(), "Filter block does not present");
     }
 
     @Test(dependsOnMethods = "verificationRedirectToAbPage")
-    @Parameters({"filterCarModel", "filterCarBody", "fileCarDriveSystem"})
-    public void verificationAppliedFilters(String filterCarModel, String filterCarBody, String fileCarDriveSystem) {
-        abService.getService().setCarModel(filterCarModel);
-        abService.getService().setCarBody(filterCarBody);
-        abService.getService().setDriveSystem(fileCarDriveSystem);
-        eventHolder.notify(EventType.PAGELOADED);
-        eventHolder.removeListener(EventType.PAGELOADED, abService.getService());
+    @Parameters({"firstCarModel", "firstCarBody", "firstCarDriveSystem"})
+    public void verificationFirstFilters(String firstCarModel, String firstCarBody, String firstCarDriveSystem) {
+        abService.getService().setCarModel(firstCarModel);
+        abService.getService().setCarBody(firstCarBody);
+        abService.getService().setDriveSystem(firstCarDriveSystem);
+        /*
+        Facade pattern realisation example
+         */
+        eventHolder.notify(EventType.FILTER_BLOCK_READY);
+        eventHolder.removeListener(EventType.FILTER_BLOCK_READY, abService.getService());
         SoftAssert softAssert = new SoftAssert();
         abPage.getProductBlock().getProductList()
                 .forEach(product -> {
-                    softAssert.assertTrue(product.getProductTitle().getText().contains(filterCarModel));
-                    softAssert.assertEquals(filterCarBody, product.getCarBodyInfo().getText());
-                    softAssert.assertEquals(fileCarDriveSystem, product.getDriverSystemInfo().getText());
+                    softAssert.assertTrue(product.getProductTitle().getText().contains(firstCarModel));
+                    softAssert.assertEquals(firstCarBody, product.getCarBodyInfo().getText());
+                    softAssert.assertEquals(firstCarDriveSystem, product.getDriverSystemInfo().getText());
                 });
         softAssert.assertAll();
     }
 
-    @Test(dependsOnMethods = "verificationAppliedFilters")
+    @Test(dependsOnMethods = "verificationFirstFilters")
+    @Parameters({"secondCarModel, secondCarBody, secondCarDriveSystem"})
+    public void verificationSecondFilters(String secondCarModel, String secondCarBody, String secondCarDriveSystem) {
+        /*
+        Strategy pattern realisation example
+         */
+        abService.getService().setCarModel(secondCarModel);
+        abService.getService().setCarBody(secondCarBody);
+        abService.getService().setDriveSystem(secondCarDriveSystem);
+        /*
+        Facade pattern realisation example
+         */
+        eventHolder.notify(EventType.FILTER_BLOCK_READY);
+        eventHolder.removeListener(EventType.FILTER_BLOCK_READY, abService.getService());
+        SoftAssert softAssert = new SoftAssert();
+        abPage.getProductBlock().getProductList()
+                .forEach(product -> {
+                    softAssert.assertTrue(product.getProductTitle().getText().contains(secondCarModel));
+                    softAssert.assertEquals(secondCarBody, product.getCarBodyInfo().getText());
+                    softAssert.assertEquals(secondCarDriveSystem, product.getDriverSystemInfo().getText());
+                });
+        softAssert.assertAll();
+    }
+
+    @Test(dependsOnMethods = "verificationSecondFilters")
     public void verificationRedirectToValidPage() {
         String actTitle = abPage.getTestCar().getText();
-        selectCar = factory.getService(getDriver(), Page.SELECTCAR);
+        selectCar = factory.getService(getDriver(), Page.SELECT_CAR);
         selectCarPage = selectCar.getService().getSelectCarPage();
         selectCar.getService().selectCar(getDriver(), abPage);
         String excTitle = selectCarPage.getPageTitle().getText();
