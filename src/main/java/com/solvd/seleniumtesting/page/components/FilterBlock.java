@@ -13,8 +13,10 @@ public class FilterBlock extends AbstractUIObject {
 
     @FindBy(xpath = ".//*[text()='Марка']/ancestor::*[contains(@class,'group')]")
     private ModelFilter modelFilters;
+
     @FindBy(xpath = ".//*[text()='Тип кузова']/ancestor::*[contains(@class,'group')]")
     private CarBodyFilter carBodyFilter;
+
     @FindBy(xpath = ".//*[text()='Привод']/ancestor::*[contains(@class,'group')]")
     private DriveSystemFilter driveSystemFilter;
 

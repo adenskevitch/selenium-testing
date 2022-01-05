@@ -9,8 +9,6 @@ public class TestCarPage extends AbstractPage {
 
     @FindBy(xpath = "//h1")
     private ExtendedWebElement pageTitle;
-    @FindBy(xpath = "//*[contains(@class,'fullscreen-icon')]")
-    private ExtendedWebElement fullScreenButton;
 
     public TestCarPage(WebDriver driver) {
         super(driver);
@@ -20,7 +18,4 @@ public class TestCarPage extends AbstractPage {
         return pageTitle;
     }
 
-    public ExtendedWebElement getFullScreenButton() {
-        return fullScreenButton;
-    }
 }

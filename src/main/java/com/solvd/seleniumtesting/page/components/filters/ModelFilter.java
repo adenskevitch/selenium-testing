@@ -10,10 +10,6 @@ public class ModelFilter extends AbstractUIObject {
 
     @FindBy(xpath = ".//*[contains(@class,'faux') and text()='Марка']")
     private ExtendedWebElement brand;
-    @FindBy(xpath = ".//*[contains(@class,'faux') and text()='Модель']")
-    private ExtendedWebElement model;
-    @FindBy(xpath = ".//*[contains(@class,'faux') and text()='Поколение']")
-    private ExtendedWebElement generation;
 
     @FindBy(xpath = ".//*[contains(@class,'faux') and text()='Марка']/parent::div/following-sibling::*")
     private BrandDropdownFilter brandDropdownFilter;
@@ -24,14 +20,6 @@ public class ModelFilter extends AbstractUIObject {
 
     public ExtendedWebElement getBrand() {
         return brand;
-    }
-
-    public ExtendedWebElement getModel() {
-        return model;
-    }
-
-    public ExtendedWebElement getGeneration() {
-        return generation;
     }
 
     public BrandDropdownFilter getBrandDropdownFilter() {

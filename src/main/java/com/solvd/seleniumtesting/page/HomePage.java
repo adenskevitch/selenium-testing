@@ -12,6 +12,7 @@ public class HomePage extends AbstractPage {
 
     @FindBy(xpath = "//*[contains(@class,'b-top-menu')]")
     private TopMenu topMenu;
+
     @FindBy(xpath = "//input[contains(@class,'fast-search')]")
     private ExtendedWebElement searchField;
 

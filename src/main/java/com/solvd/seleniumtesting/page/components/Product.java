@@ -10,8 +10,10 @@ public class Product extends AbstractUIObject {
 
     @FindBy(xpath = ".//*[contains(@class,'description_car')]")
     private ExtendedWebElement carBodyInfo;
+
     @FindBy(xpath = ".//*[contains(@class,'link_middle')]")
     private ExtendedWebElement productTitle;
+
     @FindBy(xpath = ".//*[contains(@class,'description_chassis')]")
     private ExtendedWebElement driverSystemInfo;
 

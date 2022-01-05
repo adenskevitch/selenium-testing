@@ -10,6 +10,7 @@ public class CarBodyFilter extends AbstractUIObject {
 
     @FindBy(xpath = ".//*[contains(@class,'container')]")
     private CarBodyDropdownFilter carBodyDropdownFilter;
+
     @FindBy(xpath = ".//*[contains(@class,'input-style_placeholder')]")
     private ExtendedWebElement carBody;
 

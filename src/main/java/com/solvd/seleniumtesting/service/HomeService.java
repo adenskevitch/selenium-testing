@@ -1,4 +1,4 @@
-package com.solvd.seleniumtesting.page.service;
+package com.solvd.seleniumtesting.service;
 
 import com.solvd.seleniumtesting.page.AbPage;
 import com.solvd.seleniumtesting.page.HomePage;

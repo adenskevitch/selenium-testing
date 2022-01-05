@@ -8,18 +8,12 @@ import org.openqa.selenium.support.FindBy;
 
 public class SearchModal extends AbstractPage {
 
-    @FindBy(xpath = "//input/parent::*[contains(@class,'bar-wrapper')]")
-    private ExtendedWebElement iframeSearchField;
     @FindBy(xpath = "//*[contains(@class,'item_category')]")
     private ExtendedWebElement categoryLink;
 
     public SearchModal(WebDriver driver) {
         super(driver);
         this.setRootElement(driver.findElement(By.xpath("//iframe[contains(@class,'modal-iframe')]")));;
-    }
-
-    public ExtendedWebElement getIframeSearchField() {
-        return iframeSearchField;
     }
 
     public ExtendedWebElement getCategoryLink() {

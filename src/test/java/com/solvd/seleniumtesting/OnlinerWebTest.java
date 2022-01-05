@@ -2,10 +2,10 @@ package com.solvd.seleniumtesting;
 
 import com.qaprosoft.carina.core.foundation.IAbstractTest;
 import com.solvd.seleniumtesting.page.SearchModal;
-import com.solvd.seleniumtesting.page.service.AbService;
-import com.solvd.seleniumtesting.page.service.CatalogService;
-import com.solvd.seleniumtesting.page.service.HomeService;
-import com.solvd.seleniumtesting.page.service.TestCarService;
+import com.solvd.seleniumtesting.service.AbService;
+import com.solvd.seleniumtesting.service.CatalogService;
+import com.solvd.seleniumtesting.service.HomeService;
+import com.solvd.seleniumtesting.service.TestCarService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
