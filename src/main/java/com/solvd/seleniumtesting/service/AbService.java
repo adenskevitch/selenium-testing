@@ -7,13 +7,14 @@ import com.solvd.seleniumtesting.page.components.filters.DriveSystemFilter;
 import com.solvd.seleniumtesting.page.components.filters.ModelFilter;
 import org.openqa.selenium.WebDriver;
 
-public class AbService implements Service<AbService> {
+public class AbService extends ServiceClass implements Service<AbService> {
 
-    private final AbPage abPage;
+    private AbPage abPage;
+    private WebDriver webDriver;
 
-    public AbService(WebDriver webDriver) {
-        this.abPage = new AbPage(webDriver);
-    }
+    private String carModel;
+    private String carBody;
+    private String driveSystem;
 
     public void selectModel(String carModel) {
         ModelFilter carModelFilter = abPage.getFilterBlock().getModelFilters();
@@ -38,7 +39,7 @@ public class AbService implements Service<AbService> {
                 .findFirst().get().click();
     }
 
-    public void applyFilters(String carModel, String carBody, String driveSystem) {
+    public void applyFilters() {
         selectModel(carModel);
         selectCarBody(carBody);
         selectDriverSystem(driveSystem);
@@ -51,5 +52,48 @@ public class AbService implements Service<AbService> {
     @Override
     public AbService getService() {
         return this;
+    }
+
+    @Override
+    public void onEvent() {
+        applyFilters();
+    }
+
+    public static Builder builder() {
+        return new Builder(new AbService());
+    }
+
+    public static class Builder {
+        private final AbService abService;
+
+        private Builder(AbService abService) {
+            this.abService = abService;
+        }
+
+        public Builder webDriver(WebDriver webDriver) {
+            abService.webDriver = webDriver;
+            return this;
+        }
+
+        public Builder abPage() {
+            abService.abPage = new AbPage(abService.webDriver);
+            return this;
+        }
+
+        public AbService build() {
+            return abService;
+        }
+    }
+
+    public void setCarModel(String carModel) {
+        this.carModel = carModel;
+    }
+
+    public void setCarBody(String carBody) {
+        this.carBody = carBody;
+    }
+
+    public void setDriveSystem(String driveSystem) {
+        this.driveSystem = driveSystem;
     }
 }

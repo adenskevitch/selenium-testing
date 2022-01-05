@@ -24,7 +24,10 @@ public class ServiceFactory {
                 service = new SearchModalService(webDriver);
                 break;
             case AB:
-                service = new AbService(webDriver);
+                service = AbService.builder()
+                        .webDriver(webDriver)
+                        .abPage()
+                        .build();
                 break;
             case SELECTCAR:
                 service = new SelectCarService(webDriver);

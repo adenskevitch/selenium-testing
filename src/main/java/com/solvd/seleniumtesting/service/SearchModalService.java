@@ -4,17 +4,14 @@ import com.solvd.seleniumtesting.factory.Service;
 import com.solvd.seleniumtesting.page.SearchModal;
 import org.openqa.selenium.WebDriver;
 
-public class SearchModalService implements Service<SearchModalService> {
+public class SearchModalService extends ServiceClass implements Service<SearchModalService> {
 
     private final SearchModal searchModal;
+    private WebDriver webDriver;
 
     public SearchModalService(WebDriver webDriver) {
+        this.webDriver = webDriver;
         this.searchModal = new SearchModal(webDriver);
-    }
-
-    public void selectCategory(WebDriver webDriver) {
-        webDriver.switchTo().frame(getSearchModal().getRootElement());
-        searchModal.getCategoryLink().click();
     }
 
     public SearchModal getSearchModal() {
@@ -24,5 +21,11 @@ public class SearchModalService implements Service<SearchModalService> {
     @Override
     public SearchModalService getService() {
         return this;
+    }
+
+    @Override
+    public void onEvent() {
+        webDriver.switchTo().frame(getSearchModal().getRootElement());
+        searchModal.getCategoryLink().click();
     }
 }

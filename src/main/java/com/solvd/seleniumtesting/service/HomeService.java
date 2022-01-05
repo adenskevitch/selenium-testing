@@ -10,10 +10,6 @@ public class HomeService implements Service<HomeService> {
     private HomePage homePage;
     private WebDriver webDriver;
 
-//    public HomeService(WebDriver webDriver) {
-//        this.homePage = new HomePage(webDriver);
-//    }
-
     public boolean selectSection(String menuSection) {
         if (homePage.getTopMenu().isUIObjectPresent()) {
             homePage.getTopMenu().getMenuItems().stream()
